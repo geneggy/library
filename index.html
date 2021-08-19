@@ -7,38 +7,50 @@
     <title>Library</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="books-container"></div>
-    <button class="new-book-btn">NEW BOOK</button>
+    <nav class="nav-bar">
+      <ul class="nav-list">
+        <li class="nav-list-left trigger"><a href="#newBook">New Book</a></li>
+        <li class="nav-list-left"><h1>Libri</h1></li>
+        <li class="nav-list-right"><a href="#login">Login</a></li>
+      </ul>
+    </nav>
+    <section class="books-grid"></section>
 
-    <script src="script.js" async defer></script>
+    <footer class="footer"></footer>
+    <div class="modal-container">
+      <div class="new-book-modal modal-content">
+        <span class="close-button">&times;</span>
 
-    <div class="new-book-modal">
-      <label for="title-input">Title:</label><br />
-      <input
-        type="text"
-        id="title-input"
-        name="title-input"
-        value="title"
-      /><br />
-      <label for="author-input">Author:</label><br />
-      <input
-        type="text"
-        id="title-input"
-        name="title-input"
-        value="title"
-      /><br />
-      <label for="pages-input">Pages:</label><br />
-      <input
-        type="text"
-        id="pages-input"
-        name="pages-input"
-        value="pages"
-      /><br />
-      <br />
-      <input type="submit" value="Submit" />
+        <h1 class="modal-title">Add Book</h1>
+        <label for="title-input">Title:</label><br />
+        <input
+          type="text"
+          id="title-input"
+          name="title-input"
+          value="title"
+        /><br />
+        <label for="author-input">Author:</label><br />
+        <input
+          type="text"
+          id="title-input"
+          name="title-input"
+          value="title"
+        /><br />
+        <label for="pages-input">Pages:</label><br />
+        <input
+          type="text"
+          id="pages-input"
+          name="pages-input"
+          value="pages"
+        /><br />
+        <br />
+        <input type="submit" value="Submit" />
+      </div>
     </div>
+    <script src="/script.js" async defer></script>
   </body>
 </html>
