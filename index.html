@@ -22,34 +22,27 @@
 
     <footer class="footer"></footer>
     <div class="modal-container">
-      <div class="new-book-modal modal-content">
+      <form class="new-book-modal modal-content modal-form">
         <span class="close-button">&times;</span>
 
         <h1 class="modal-title">Add Book</h1>
         <label for="title-input">Title:</label><br />
-        <input
-          type="text"
-          id="title-input"
-          name="title-input"
-          value="title"
-        /><br />
+        <input type="text" id="title-input" name="title-input" /><br />
         <label for="author-input">Author:</label><br />
-        <input
-          type="text"
-          id="title-input"
-          name="title-input"
-          value="title"
-        /><br />
+        <input type="text" id="author-input" name="author-input" /><br />
         <label for="pages-input">Pages:</label><br />
+        <input type="number" id="pages-input" name="pages-input" /><br />
+
+        <label for="read-input">Have you read this?</label><br />
         <input
-          type="text"
-          id="pages-input"
-          name="pages-input"
-          value="pages"
-        /><br />
+          type="checkbox"
+          id="read-input"
+          class="read-input"
+          name="read-input"
+        />
         <br />
         <input type="submit" value="Submit" />
-      </div>
+      </form>
     </div>
     <script src="/script.js" async defer></script>
   </body>

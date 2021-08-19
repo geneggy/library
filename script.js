@@ -64,6 +64,17 @@ function addBook(book) {
 
   booksContainer.appendChild(bookCard);
 }
+window.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (e.target.classList.contains("book-delete")) {
+    console.log(e.target.parentNode);
+    console.log(myLibrary);
+    //remove book from library - this doesnt work becuase after you remove one element the entire array shifts which throws off data-index connection
+    removeBookFromLibrary(e.target.parentNode.dataset.index);
+    //remove entire book from dom
+    e.target.parentNode.remove();
+  }
+});
 
 function renderBooks(books) {
   books.forEach((book) => {
@@ -75,6 +86,10 @@ function addBookToLibrary(book) {
   myLibrary.push(book);
 }
 
+function removeBookFromLibrary(dataIndex) {
+  myLibrary.splice(index, 1);
+}
+
 //modal
 const modalContainer = document.querySelector(".modal-container");
 const trigger = document.querySelector(".trigger");
@@ -84,14 +99,27 @@ function toggleModal() {
   modalContainer.classList.toggle("show-modal");
 }
 
-function windowOnClick(event) {
-  if (event.target === modalContainer) {
-    toggleModal();
-  }
-}
-
 trigger.addEventListener("click", toggleModal);
 closeButton.addEventListener("click", toggleModal);
-window.addEventListener("click", windowOnClick);
+
+window.addEventListener("keydown", (event) => {
+  if (event.key == "Escape" && modalContainer.classList.contains("show-modal"))
+    toggleModal();
+});
+
+//modal submit form
+const bookForm = document.querySelector(".modal-form");
+
+bookForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const title = document.querySelector("#title-input").value;
+  const author = document.querySelector("#author-input").value;
+  const pages = document.querySelector("#pages-input").value;
+  const read = document.querySelector("#read-input").checked;
+  const newBook = new Book(title, author, pages, read);
+  addBookToLibrary(newBook);
+  addBook(newBook);
+  toggleModal();
+});
 
 renderBooks(myLibrary);
