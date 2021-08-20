@@ -13,19 +13,23 @@ let myLibrary = [
     read: true,
   },
   {
-    title: "Harry Potter3",
+    title: "Harry Potter4",
     author: "JK Rowling",
     pages: "1983423",
     read: true,
   },
   {
-    title: "Harry Potter3",
+    title: "Harry Potter5",
     author: "JK Rowling",
     pages: "1983423",
     read: true,
   },
 ];
 const booksContainer = document.querySelector(".books-grid");
+//modal
+const modalContainer = document.querySelector(".modal-container");
+const trigger = document.querySelector(".trigger");
+const closeButton = document.querySelector(".close-button");
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -39,42 +43,32 @@ function addBook(book) {
   const title = document.createElement("h2");
   const author = document.createElement("h3");
   const pages = document.createElement("h3");
-  const read = document.createElement("p");
+  const readBtn = document.createElement("button");
   const deleteBtn = document.createElement("button");
-
   bookCard.classList.add("book-card");
   title.classList.add("book-title");
   author.classList.add("book-author");
   pages.classList.add("book-pages");
-  read.classList.add("book-read");
+  readBtn.classList.add("book-read-btn");
   deleteBtn.classList.add("book-delete");
-  bookCard.setAttribute("data-index", myLibrary.indexOf(book));
-
   title.textContent = `${book.title}`;
   author.textContent = `${book.author}`;
   pages.textContent = `${book.pages} pages`;
-  read.textContent = book.read ? "read" : "unread";
   deleteBtn.textContent = "Remove Book";
-
+  if (book.read) {
+    readBtn.textContent = "Read";
+    readBtn.classList.add("btn-green");
+  } else {
+    readBtn.textContent = "Not Read";
+    readBtn.classList.add("btn-red");
+  }
   bookCard.appendChild(title);
   bookCard.appendChild(author);
   bookCard.appendChild(pages);
-  bookCard.appendChild(read);
+  bookCard.appendChild(readBtn);
   bookCard.appendChild(deleteBtn);
-
   booksContainer.appendChild(bookCard);
 }
-window.addEventListener("click", (e) => {
-  e.preventDefault();
-  if (e.target.classList.contains("book-delete")) {
-    console.log(e.target.parentNode);
-    console.log(myLibrary);
-    //remove book from library - this doesnt work becuase after you remove one element the entire array shifts which throws off data-index connection
-    removeBookFromLibrary(e.target.parentNode.dataset.index);
-    //remove entire book from dom
-    e.target.parentNode.remove();
-  }
-});
 
 function renderBooks(books) {
   books.forEach((book) => {
@@ -86,26 +80,29 @@ function addBookToLibrary(book) {
   myLibrary.push(book);
 }
 
-function removeBookFromLibrary(dataIndex) {
-  myLibrary.splice(index, 1);
+function removeBookFromLibrary(title) {
+  myLibrary = myLibrary.filter((book) => book.title !== title);
+  console.log(myLibrary);
 }
 
-//modal
-const modalContainer = document.querySelector(".modal-container");
-const trigger = document.querySelector(".trigger");
-const closeButton = document.querySelector(".close-button");
+function toggleRead(e) {
+  const title = e.target.closest("div").querySelector(".book-title").innerText;
+  const book = myLibrary.find((book) => book.title === title);
+  book.read = !book.read;
+  if (book.read) {
+    e.target.classList.remove("btn-red");
+    e.target.classList.add("btn-green");
+    e.target.innerText = "Read";
+  } else {
+    e.target.classList.remove("btn-green");
+    e.target.classList.add("btn-red");
+    e.target.innerText = "Unread";
+  }
+}
 
 function toggleModal() {
   modalContainer.classList.toggle("show-modal");
 }
-
-trigger.addEventListener("click", toggleModal);
-closeButton.addEventListener("click", toggleModal);
-
-window.addEventListener("keydown", (event) => {
-  if (event.key == "Escape" && modalContainer.classList.contains("show-modal"))
-    toggleModal();
-});
 
 //modal submit form
 const bookForm = document.querySelector(".modal-form");
@@ -120,6 +117,25 @@ bookForm.addEventListener("submit", (event) => {
   addBookToLibrary(newBook);
   addBook(newBook);
   toggleModal();
+});
+
+trigger.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", toggleModal);
+
+window.addEventListener("click", toggleRead);
+
+window.addEventListener("click", (e) => {
+  if (e.target.classList.contains("book-delete")) {
+    removeBookFromLibrary(
+      e.target.closest("div").querySelector(".book-title").innerText
+    );
+    e.target.parentNode.remove();
+  }
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key == "Escape" && modalContainer.classList.contains("show-modal"))
+    toggleModal();
 });
 
 renderBooks(myLibrary);
